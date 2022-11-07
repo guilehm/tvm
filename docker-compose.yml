@@ -12,4 +12,3 @@ services:
       - "3000:80"
     environment:
       PORT: 80
-
