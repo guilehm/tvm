@@ -12,9 +12,9 @@ export default function HomePage({ movies }) {
           </p>
 
         </main>
-        {/* {movies.map((movie) => (
-          <div key={movie.id}>{movie.title}</div>
-        ))} */}
+        {movies.map((movie) => (
+          <div key={movie.id}>{movie.original_title}</div>
+        ))}
       </div>
     </div>
 
