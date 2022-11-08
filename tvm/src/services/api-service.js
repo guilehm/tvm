@@ -1,33 +1,28 @@
-"use-server"
+import { API_URL, API_ACCESS_TOKEN, BASE_SITE_URL } from "../../settings"
 
-const API_URL = "https://api.themoviedb.org/3/"
-const API_ACCESS_TOKEN = process.env.API_ACCESS_TOKEN
 
-class ApiService {
-  constructor(url = API_URL, token = API_ACCESS_TOKEN) {
-    this.baseUrl = url
-    this.token = token
+export async function handleResponse(response) {
+  if (response.status === 200) {
+    const data = await response.json()
+    return data.results
   }
-
-  async handleResponse(response) {
-    if (response.status === 200) {
-      const data = await response.json()
-      return data.results
-    }
-    return []
-  }
-
-  async makeSearch(endpoint, query = "", page = 1) {
-    const params = new URLSearchParams({ query, page })
-    const response = await fetch(`${this.baseUrl}${endpoint}?${params}`, {
-      headers: {
-        "ContentType": "application/json",
-        "Authorization": `Bearer ${this.token} `
-      },
-    })
-    return this.handleResponse(response)
-  }
+  return []
 }
 
 
-export default new ApiService()
+// TODO: add cache
+export async function makeSearch(endpoint, query = "", page = 1) {
+  const params = new URLSearchParams({ query, page })
+  const response = await fetch(`${API_URL}${endpoint}?${params}`, {
+    headers: {
+      "ContentType": "application/json",
+      "Authorization": `Bearer ${API_ACCESS_TOKEN} `
+    },
+  })
+  return handleResponse(response)
+}
+
+
+export function getImageUrl(path) {
+  return `${BASE_SITE_URL}t/p/w300${path}`
+}

@@ -1,10 +1,11 @@
-import HomePage from "./HomePage"
-import ApiService from "../src/services/api-service"
+import { makeSearch } from "../src/services/api-service"
+import HomePage from "../src/components/layouts/HomePage"
+
 
 async function getMovies() {
   try {
     // TODO: make query and page dynamic
-    return await ApiService.makeSearch("search/movie", "ring", 1)
+    return await makeSearch("search/movie", "ring", 1)
   } catch (err) {
     return []
   }
