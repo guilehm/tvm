@@ -1,21 +1,22 @@
 "use client"
 
-import { useState, useRef, use } from "react"
+import { useState, useRef } from "react"
 import { makeSearch, getImageUrl } from "../services/api-service"
 import ImageContainer from "./commons/ImageContainer"
 
 
-export default function MovieList({ movies }) {
+export default function MovieList() {
   const [value, setValue] = useState("")
-  const [movieList, setMovieList] = useState(movies)
+  const [movieList, setMovieList] = useState([])
 
   const timeout = useRef()
 
   const handleSearch = (e) => {
     setValue(e.target.value)
     clearTimeout(timeout.current)
-    timeout.current = setTimeout(() => {
-      const response = use(makeSearch("search/movie", value, 1))
+    timeout.current = setTimeout(async () => {
+      const data = await makeSearch("search/movie", value, 1)
+      setMovieList(data.results)
     }, 600)
   }
 

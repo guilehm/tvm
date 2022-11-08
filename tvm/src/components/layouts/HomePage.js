@@ -3,14 +3,14 @@
 import MovieList from "../MovieList"
 
 
-export default function HomePage({ movies }) {
+export default function HomePage() {
   return (
     <div>
 
       <main>
         <h1>Welcome to TVM</h1>
         <p>Movies and TV Shows</p>
-        <MovieList movies={movies} />
+        <MovieList />
       </main>
 
     </div>
