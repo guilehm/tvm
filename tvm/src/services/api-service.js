@@ -1,4 +1,4 @@
-import { API_URL, API_ACCESS_TOKEN, BASE_SITE_URL } from "../../settings"
+import { BASE_SITE_URL } from "../../settings"
 
 
 export async function handleResponse(response) {
@@ -13,12 +13,7 @@ export async function handleResponse(response) {
 // TODO: add cache
 export async function makeSearch(endpoint, query = "", page = 1) {
   const params = new URLSearchParams({ query, page })
-  const response = await fetch(`${API_URL}${endpoint}?${params}`, {
-    headers: {
-      "ContentType": "application/json",
-      "Authorization": `Bearer ${API_ACCESS_TOKEN} `
-    },
-  })
+  const response = await fetch(`/api/tmdb/${endpoint}?${params}`)
   return handleResponse(response)
 }
 
