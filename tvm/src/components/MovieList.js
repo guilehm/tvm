@@ -8,12 +8,18 @@ import ImageContainer from "./commons/ImageContainer"
 
 export default function MovieList() {
   const [value, setValue] = useState("")
+  const [error, setError] = useState(false)
+
   const url = makeUrl("search/movie", value, 1)
   // TODO: handle error
-  const { data: movieList } = useSWR(value ? url : null, fetcher)
+  const { data: movieList, error: reqError } = useSWR(value ? url : null, fetcher)
+  if (!error && reqError) {
+    setError(true)
+  }
 
   const timeout = useRef()
   const handleSearch = (e) => {
+    setError(false)
     clearTimeout(timeout.current)
     timeout.current = setTimeout(() => {
       setValue(e.target.value)
@@ -29,7 +35,11 @@ export default function MovieList() {
         name="movie-search"
         onChange={handleSearch} />
 
-      {movieList?.length &&
+      {error && (
+        <div>Failed to load movies</div>
+      )}
+
+      {!error && movieList?.length &&
         (<ul>
           {movieList.map((movie) =>
             <li key={movie.id}>
