@@ -10,8 +10,8 @@ export default async function handler(req, res) {
       },
     })
     const data = await response.json()
-    return res.status(200).json({ data })
+    return res.status(200).json(data)
   } catch {
-    return res.status(response.status)
+    return res.status(500)
   }
 }
