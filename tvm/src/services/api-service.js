@@ -1,18 +1,18 @@
-import { BASE_SITE_URL } from "../../settings"
+import axios from "axios"
+
+import { BASE_PROXY_URL, BASE_SITE_URL } from "../../settings"
 
 
-export async function handleResponse(response) {
-  if (response.status === 200) {
-    const res = await response.json()
-    return res.data
-  }
-  return []
+const client = axios.create({ baseURL: BASE_PROXY_URL })
+
+export async function fetcher(...args) {
+  const response = await client.get(...args)
+  return response.data.results
 }
 
-export async function makeSearch(endpoint, query = "", page = 1) {
+export function makeUrl(endpoint, query = "", page = 1) {
   const params = new URLSearchParams({ query, page })
-  const response = await fetch(`/api/tmdb/${endpoint}?${params}`)
-  return handleResponse(response)
+  return `${endpoint}?${params}`
 }
 
 export function getImageUrl(path) {
