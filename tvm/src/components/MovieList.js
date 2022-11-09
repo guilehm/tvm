@@ -1,37 +1,35 @@
 "use client"
 
-import { useState, useRef } from "react"
-import { makeSearch, getImageUrl } from "../services/api-service"
+import { useRef, useState } from "react"
+import useSWR from "swr"
+import { fetcher, getImageUrl, makeUrl } from "../services/api-service"
 import ImageContainer from "./commons/ImageContainer"
 
 
 export default function MovieList() {
   const [value, setValue] = useState("")
-  const [movieList, setMovieList] = useState([])
+  const url = makeUrl("search/movie", value, 1)
+  // TODO: handle error
+  const { data: movieList } = useSWR(value ? url : null, fetcher)
 
   const timeout = useRef()
-
   const handleSearch = (e) => {
-    setValue(e.target.value)
     clearTimeout(timeout.current)
-    timeout.current = setTimeout(async () => {
-      const data = await makeSearch("search/movie", value, 1)
-      setMovieList(data.results)
+    timeout.current = setTimeout(() => {
+      setValue(e.target.value)
     }, 600)
   }
-
 
   return (
     <>
       <label htmlFor="movie-search">Search the movie:</label>
       <input
         type="search"
-        value={value}
         id="movie-search"
         name="movie-search"
         onChange={handleSearch} />
 
-      {movieList.length > 0 &&
+      {movieList?.length &&
         (<ul>
           {movieList.map((movie) =>
             <li key={movie.id}>
@@ -46,7 +44,6 @@ export default function MovieList() {
             </li>
           )}
         </ul>)}
-
     </>
   )
 }
