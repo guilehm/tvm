@@ -1,18 +1,21 @@
 "use client"
 
+import Footer from "../Footer/Footer"
 import MovieList from "../MovieList"
-
 
 export default function HomePage() {
   return (
-    <div>
+    <>
+      <div>
 
-      <main>
-        <h1>Welcome to TVM</h1>
-        <p>Movies and TV Shows</p>
-        <MovieList />
-      </main>
+        <main>
+          <h1>Welcome to TVM</h1>
+          <p>Movies and TV Shows</p>
+          <MovieList />
+        </main>
 
-    </div>
+      </div>
+      <Footer />
+    </>
   )
 }

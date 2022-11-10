@@ -1,13 +1,9 @@
-import axios from "axios"
-
 import { BASE_PROXY_URL, API_ACCESS_TOKEN } from "../../settings"
 
-
-const client = axios.create({ baseURL: BASE_PROXY_URL })
-
-export async function fetcher(...args) {
-  const response = await client.get(...args)
-  return response.data.results
+export async function fetcher(url) {
+  const response = await fetch(`${BASE_PROXY_URL}${url}`)
+  const res = await response.json()
+  return res
 }
 
 export function makeUrl(endpoint, query = "", page = 1) {

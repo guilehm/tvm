@@ -12,11 +12,11 @@ export default function MovieList() {
   const [error, setError] = useState(false)
 
   const url = makeUrl("search/movie", value, 1)
-  // TODO: handle error
-  const { data: movieList, error: reqError } = useSWR(value ? url : null, fetcher)
+  const { data, error: reqError } = useSWR(value ? url : null, fetcher)
   if (!error && reqError) {
     setError(true)
   }
+  const movieList = data?.results
 
   const timeout = useRef()
   const handleSearch = (e) => {
