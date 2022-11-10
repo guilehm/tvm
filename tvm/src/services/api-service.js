@@ -2,8 +2,7 @@ import { BASE_PROXY_URL, API_ACCESS_TOKEN } from "../../settings"
 
 export async function fetcher(url) {
   const response = await fetch(`${BASE_PROXY_URL}${url}`)
-  const res = await response.json()
-  return res
+  return await response.json()
 }
 
 export function makeUrl(endpoint, query = "", page = 1) {
