@@ -1,10 +1,11 @@
 "use client"
 
+import Link from "next/link"
 import { useRef, useState } from "react"
 import useSWR from "swr"
-import { fetcher, getImageUrl, makeUrl } from "../services/api-service"
+import { getImageUrl, getMovieDetailUrl } from "../helpers"
+import { fetcher, makeUrl } from "../services/api-service"
 import ImageContainer from "./commons/ImageContainer"
-
 
 export default function MovieList() {
   const [value, setValue] = useState("")
@@ -44,12 +45,14 @@ export default function MovieList() {
           {movieList.map((movie) =>
             <li key={movie.id}>
               <section>
-                <h2>{movie.original_title}</h2>
-                {movie.poster_path &&
-                  <ImageContainer
-                    src={getImageUrl(movie.poster_path)}
-                    alt={movie.original_title}
-                    fill />}
+                <Link href={getMovieDetailUrl(movie.id, movie.original_title)}>
+                  <h2>{movie.original_title}</h2>
+                  {movie.poster_path &&
+                    <ImageContainer
+                      src={getImageUrl(movie.poster_path)}
+                      alt={movie.original_title}
+                      fill />}
+                </Link>
               </section>
             </li>
           )}
